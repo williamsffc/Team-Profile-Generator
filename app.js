@@ -15,27 +15,27 @@ const render = require("./lib/htmlRenderer");
 const manager_Q = [
     {
         type: "input",
-        name: "manager_Name",
+        name: "name",
         message: "What is your manager's name?",
     },
     {
         type: "input",
-        name: "manager_ID",
+        name: "id",
         message: "What is your manager's ID?",
     },
     {
         type: "input",
-        name: "manager_Email",
+        name: "email",
         message: "What is your manager's email?",
     },
     {
         type: "input",
-        name: "manager_Office",
+        name: "officeNumber",
         message: "What is your manager's office number?",
     },
     {
         type: "list",
-        name: "add_TeamMember",
+        name: "role",
         message: "What type of team member would you like to add?",
         default: '(Use arrow keys)',
         choices: [
@@ -49,27 +49,27 @@ const manager_Q = [
 const engineer_Q = [
     {
         type: "input",
-        name: "engineer_Name",
+        name: "name",
         message: "What is your engineer's name?",
     },
     {
         type: "input",
-        name: "engineer_ID",
+        name: "id",
         message: "What is your engineer's ID?",
     },
     {
         type: "input",
-        name: "engineer_Email",
+        name: "email",
         message: "What is your engineer's email?",
     },
     {
         type: "input",
-        name: "engineer_GitHub",
+        name: "github",
         message: "What is your engineer's GitHub username?",
     },
     {
         type: "list",
-        name: "add_TeamMember",
+        name: "role",
         message: "What type of team member would you like to add?",
         default: '(Use arrow keys)',
         choices: [
@@ -83,27 +83,27 @@ const engineer_Q = [
 const intern_Q = [
     {
         type: "input",
-        name: "intern_Name",
+        name: "name",
         message: "What is your intern's name?",
     },
     {
         type: "input",
-        name: "intern_ID",
+        name: "id",
         message: "What is your intern's ID?",
     },
     {
         type: "input",
-        name: "intern_Email",
+        name: "email",
         message: "What is your intern's email?",
     },
     {
         type: "input",
-        name: "intern_School",
+        name: "school",
         message: "What is your intern's school?",
     },
     {
         type: "list",
-        name: "add_TeamMember",
+        name: "role",
         message: "What type of team member would you like to add?",
         default: '(Use arrow keys)',
         choices: [
@@ -115,26 +115,49 @@ const intern_Q = [
 ];
 
 
- userPrompt = () => {
-    return inquirer.prompt(manager_Q);
-
-    for (let i = 0; i < array.length; i++) {
-        if (this.choices === 'Engineer') {
-            inquirer.prompt(engineer_Q);
-        } else if (this.choice === 'Intern') {
-            inquirer.prompt(intern_Q);
-        } else {
-
+userPrompt = () => {
+    inquirer.prompt(manager_Q)
+    .then(x => {
+        switch(x.choices){
+            case "Engineer":
+                return engineer_Q();
+            case "intern":
+                return intern_Q();
+            case "I don\'t want to add any more team members":
+                return;
         }
-    }
+    })
+
+    // for (let i = 0; i < array.length; i++) {
+    //     if (this.choices === 'Engineer') {
+    //         inquirer.prompt(engineer_Q);
+    //     } else if (this.choice === 'Intern') {
+    //         inquirer.prompt(intern_Q);
+    //     } else {
+
+    //     }
+    // }
 };
 
 
 function init() {
     userPrompt()
-};
+        // .then(function (answer) {
+        //     const data = {
+        //         title: answer.title,
+        //         description: answer.description,
+        //         installation: answer.installation,
+        //         usage: answer.usage,
+        //         contribution: answer.contribution,
+        //         test: answer.test,
+        //         license: answer.license,
+        //         username: answer.username,
+        //         email: answer.email
+        //     }
+        // });
+        };
 
-init();
+    init();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
