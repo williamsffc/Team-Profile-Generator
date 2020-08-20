@@ -11,6 +11,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+// const writeFileAsync = util.promisify(fs.writeFile);
+
 const manager_Q = [
     {
         type: "input",
@@ -114,18 +116,18 @@ const intern_Q = [
 ];
 
 
- userPrompt = () => {
+userPrompt = () => {
     return inquirer.prompt(manager_Q);
 
-    for (let i = 0; i < array.length; i++) {
-        if (this.choices === 'Engineer') {
-            inquirer.prompt(engineer_Q);
-        } else if (this.choice === 'Intern') {
-            inquirer.prompt(intern_Q);
-        } else {
+    // for (let i = 0; i < array.length; i++) {
+    //     if (this.choices === 'Engineer') {
+    //         inquirer.prompt(engineer_Q);
+    //     } else if (this.choice === 'Intern') {
+    //         inquirer.prompt(intern_Q);
+    //     } else {
 
-        }
-    }
+    //     }
+    // }
 };
 
 
