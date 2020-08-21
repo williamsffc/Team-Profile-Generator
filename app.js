@@ -2,15 +2,19 @@ const Employee = require("./lib/Employee");
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
+const render = require("./lib/htmlRenderer");
 
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
-const render = require("./lib/htmlRenderer");
+const writeFileAsync = util.promisify(fs.writeFile);
+
+const teamList = []
 
 const manager_Q = [
     {
@@ -114,50 +118,42 @@ const intern_Q = [
     }
 ];
 
-
-userPrompt = () => {
-    inquirer.prompt(manager_Q)
-    .then(x => {
-        switch(x.choices){
-            case "Engineer":
-                return engineer_Q();
-            case "intern":
-                return intern_Q();
-            case "I don\'t want to add any more team members":
-                return;
-        }
-    })
-
-    // for (let i = 0; i < array.length; i++) {
-    //     if (this.choices === 'Engineer') {
-    //         inquirer.prompt(engineer_Q);
-    //     } else if (this.choice === 'Intern') {
-    //         inquirer.prompt(intern_Q);
-    //     } else {
-
-    //     }
+function userPrompt() {
+    return inquirer.prompt(manager_Q)
+    // .then(x => {
+    // switch(x.choices){
+    //     case "Engineer":
+    //         return engineer_Q();
+    //     case "intern":
+    //         return intern_Q();
+    //     case "I don\'t want to add any more team members":
+    //         return;
     // }
 };
 
-
 function init() {
-    userPrompt()
-        // .then(function (answer) {
-        //     const data = {
-        //         title: answer.title,
-        //         description: answer.description,
-        //         installation: answer.installation,
-        //         usage: answer.usage,
-        //         contribution: answer.contribution,
-        //         test: answer.test,
-        //         license: answer.license,
-        //         username: answer.username,
-        //         email: answer.email
-        //     }
-        // });
-        };
+    userPrompt (manager_Q)
+    // let manager = new Manager(name, id, mail, officeNumber);
+    // teamList.push(manager);
+    // init()
+}
 
-    init();
+
+// function init() {
+//     userPrompt()
+//         .then(function (answers) {
+//             const html = render(answers);
+//             return writeFileAsync("./output/team.html", html);
+//         })
+//         .then(function () {
+//             console.log("Successfully wrote to team.html");
+//         })
+//         .catch(function (err) {
+//             console.log(err);
+//         })
+// };
+
+init();
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
