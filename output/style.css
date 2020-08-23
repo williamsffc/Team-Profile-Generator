@@ -7,7 +7,7 @@ font-family: 'Rubik', sans-serif;
 }
 
 .text-center {
-    color: white;
+    color: rgb(7, 6, 6);
     font-weight: bold;
 }
 
@@ -28,7 +28,5 @@ font-family: 'Rubik', sans-serif;
 }
 
 .zoom:hover {
-  -ms-transform: scale(1.2); /* IE 9 */
-  -webkit-transform: scale(1.2); /* Safari 3-8 */
   transform: scale(1.2); 
 }
