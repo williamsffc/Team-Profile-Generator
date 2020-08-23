@@ -40,6 +40,6 @@
 <img src="assets/Capture4.JPG">
 
 -------------
-Created using my own ReadMe Generator app
+ReadMe was created using my own ReadMe Generator app
 © Copyright - 2020
 
