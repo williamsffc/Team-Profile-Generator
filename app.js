@@ -14,7 +14,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const writeFileAsync = util.promisify(fs.writeFile);
 
-const teamList = []
+const employees = []
 
 const manager_Q = [
     {
@@ -36,17 +36,6 @@ const manager_Q = [
         type: "input",
         name: "officeNumber",
         message: "What is your manager's office number?",
-    },
-    {
-        type: "list",
-        name: "role",
-        message: "What type of team member would you like to add?",
-        default: '(Use arrow keys)',
-        choices: [
-            'Engineer',
-            'Intern',
-            'I don\'t want to add any more team members',
-        ]
     }
 ];
 
@@ -70,17 +59,6 @@ const engineer_Q = [
         type: "input",
         name: "github",
         message: "What is your engineer's GitHub username?",
-    },
-    {
-        type: "list",
-        name: "role",
-        message: "What type of team member would you like to add?",
-        default: '(Use arrow keys)',
-        choices: [
-            'Engineer',
-            'Intern',
-            'I don\'t want to add any more team members',
-        ]
     }
 ];
 
@@ -104,7 +82,10 @@ const intern_Q = [
         type: "input",
         name: "school",
         message: "What is your intern's school?",
-    },
+    }
+];
+
+const employeeRole_Q = [
     {
         type: "list",
         name: "role",
@@ -119,60 +100,73 @@ const intern_Q = [
 ];
 
 function userPrompt() {
-    return inquirer.prompt(manager_Q)
-    // .then(x => {
-    // switch(x.choices){
-    //     case "Engineer":
-    //         return engineer_Q();
-    //     case "intern":
-    //         return intern_Q();
-    //     case "I don\'t want to add any more team members":
-    //         return;
-    // }
+    console.log("Building a new team...");
+    inquirer.prompt(manager_Q)
+        .then((answers) => {
+            var manager = new Manager(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.officeNumber
+            );
+            employees.push(manager);
+            employeeList();
+        })
 };
 
-function init() {
-    userPrompt (manager_Q)
-    // let manager = new Manager(name, id, mail, officeNumber);
-    // teamList.push(manager);
-    // init()
+function employeeList() {
+    inquirer.prompt(employeeRole_Q)
+        .then((answers) => {
+            switch (answers.role) {
+                case "Engineer":
+                    return new_Engineer();
+                case "Intern":
+                    
+                    return new_Intern();
+                default:
+                    console.log("All team members have been saved!!!");
+                    writeFileAsync("./output/team.html", render(employees));
+            }
+        })
 }
 
+function new_Engineer() {
+    console.log("Adding a new engineer...");
+    inquirer.prompt(engineer_Q)
+        .then((answers) => {
+            var engineer = new Engineer(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.github
+            );
+            employees.push(engineer);
+            employeeList();
+        })
+}
 
-// function init() {
-//     userPrompt()
-//         .then(function (answers) {
-//             const html = render(answers);
-//             return writeFileAsync("./output/team.html", html);
-//         })
-//         .then(function () {
-//             console.log("Successfully wrote to team.html");
-//         })
-//         .catch(function (err) {
-//             console.log(err);
-//         })
-// };
+function new_Intern() {
+    console.log("Adding a new intern...");
+    inquirer.prompt(intern_Q)
+        .then((answers) => {
+            var intern = new Intern(
+                answers.name,
+                answers.id,
+                answers.email,
+                answers.school
+            );
+            employees.push(intern);
+            employeeList();
+        })
+}
+
+function init() {
+    userPrompt([
+        manager_Q,
+        engineer_Q,
+        intern_Q
+    ]);
+
+}
 
 init();
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```

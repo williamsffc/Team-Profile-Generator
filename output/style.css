@@ -1,0 +1,34 @@
+* {
+font-family: 'Rubik', sans-serif;
+}
+
+.jumbotron {
+  background: linear-gradient(to right, #093637, #44a08d);
+}
+
+.text-center {
+    color: white;
+    font-weight: bold;
+}
+
+.card-header {
+    background: #595b5c28;
+}
+
+.list-group-item{
+    background: #d5e6ebb6;
+}
+
+.team-area {
+    justify-content:space-between !important;
+}
+
+.zoom {
+  transition: transform .2s;
+}
+
+.zoom:hover {
+  -ms-transform: scale(1.2); /* IE 9 */
+  -webkit-transform: scale(1.2); /* Safari 3-8 */
+  transform: scale(1.2); 
+}
